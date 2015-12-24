@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="9531" systemVersion="15A282b" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="yHS-R4-Bqk">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9529"/>
+    </dependencies>
+    <scenes>
+        <!--Navigation Controller-->
+        <scene sceneID="eTu-1h-flr">
+            <objects>
+                <navigationController id="yHS-R4-Bqk" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="yMB-1K-j4R">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="hof-U2-cLu"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="zdK-ZS-fUq" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-694" y="329"/>
+        </scene>
+        <!--View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="GSImageViewerControllerExample" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
+                        <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CV8-oA-xaQ">
+                                <rect key="frame" x="117" y="209" width="88" height="30"/>
+                                <state key="normal" title="Normal Push"/>
+                                <connections>
+                                    <action selector="normalPush:" destination="BYZ-38-t0r" eventType="touchUpInside" id="xcQ-o2-UeR"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vmm-GV-0hY">
+                                <rect key="frame" x="137" y="329" width="46" height="30"/>
+                                <state key="normal" title="Button"/>
+                                <connections>
+                                    <action selector="customPresent:" destination="BYZ-38-t0r" eventType="touchUpInside" id="7UH-zU-nf2"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5MG-FE-Dbh">
+                                <rect key="frame" x="107" y="269" width="107" height="30"/>
+                                <state key="normal" title="Normal Present"/>
+                                <connections>
+                                    <action selector="normalPresent:" destination="BYZ-38-t0r" eventType="touchUpInside" id="9Fw-Ww-IZ6"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="5MG-FE-Dbh" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="4ar-TA-pEc"/>
+                            <constraint firstItem="CV8-oA-xaQ" firstAttribute="centerX" secondItem="5MG-FE-Dbh" secondAttribute="centerX" id="5I1-rW-xPY"/>
+                            <constraint firstItem="5MG-FE-Dbh" firstAttribute="top" secondItem="CV8-oA-xaQ" secondAttribute="bottom" constant="30" id="Es4-8t-6cX"/>
+                            <constraint firstItem="5MG-FE-Dbh" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="FzI-Hb-G9Z"/>
+                            <constraint firstItem="vmm-GV-0hY" firstAttribute="top" secondItem="5MG-FE-Dbh" secondAttribute="bottom" constant="30" id="gkd-do-T7E"/>
+                            <constraint firstItem="vmm-GV-0hY" firstAttribute="centerX" secondItem="5MG-FE-Dbh" secondAttribute="centerX" id="lYR-oO-s4y"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="Jbs-3V-yAC"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-287" y="329"/>
+        </scene>
+    </scenes>
+</document>
