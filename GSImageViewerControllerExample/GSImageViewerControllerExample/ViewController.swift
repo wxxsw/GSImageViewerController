@@ -12,18 +12,33 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
     }
 
     @IBAction func normalPush(sender: AnyObject) {
+        let imageInfo   = GSImageInfo(image: UIImage(named: "0")!, imageMode: .AspectFit)
+        let imageViewer = GSImageViewerController(imageInfo: imageInfo)
+        navigationController?.pushViewController(imageViewer, animated: true)
     }
     
     @IBAction func normalPresent(sender: AnyObject) {
+        let imageInfo   = GSImageInfo(image: UIImage(named: "0")!, imageMode: .AspectFill)
+        let imageViewer = GSImageViewerController(imageInfo: imageInfo)
+        presentViewController(imageViewer, animated: true, completion: nil)
     }
     
-    @IBAction func customPresent(sender: AnyObject) {
+    @IBAction func customPresent(sender: UIButton) {
+        let imageInfo   = GSImageInfo(image: UIImage(named: "1")!, imageMode: .AspectFill)
+        let transitionInfo = GSTransitionInfo(fromView: sender)
+        let imageViewer = GSImageViewerController(imageInfo: imageInfo, transitionInfo: transitionInfo)
+        presentViewController(imageViewer, animated: true, completion: nil)
     }
     
+    @IBAction func cornerRadiusPresent(sender: UIButton) {
+        let imageInfo   = GSImageInfo(image: UIImage(named: "2")!, imageMode: .AspectFit)
+        let transitionInfo = GSTransitionInfo(fromView: sender)
+        let imageViewer = GSImageViewerController(imageInfo: imageInfo, transitionInfo: transitionInfo)
+        presentViewController(imageViewer, animated: true, completion: nil)
+    }
     
 }
 

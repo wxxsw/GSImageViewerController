@@ -8,29 +8,29 @@
 
 import UIKit
 
-struct GSImageInfo {
+public struct GSImageInfo {
     
-    enum ImageMode : Int {
+    public enum ImageMode : Int {
         case AspectFit  = 1
         case AspectFill = 2
     }
     
-    let image     : UIImage
-    let imageMode : ImageMode
-    var imageHD   : NSURL?
+    public let image     : UIImage
+    public let imageMode : ImageMode
+    public var imageHD   : NSURL?
     
-    init(image: UIImage, imageMode: ImageMode) {
+    public var contentMode : UIViewContentMode {
+        return UIViewContentMode(rawValue: imageMode.rawValue)!
+    }
+    
+    public init(image: UIImage, imageMode: ImageMode) {
         self.image     = image
         self.imageMode = imageMode
     }
     
-    init(image: UIImage, imageMode: ImageMode, imageHD: NSURL?) {
+    public init(image: UIImage, imageMode: ImageMode, imageHD: NSURL?) {
         self.init(image: image, imageMode: imageMode)
         self.imageHD = imageHD
-    }
-    
-    var contentMode : UIViewContentMode {
-        return UIViewContentMode(rawValue: imageMode.rawValue)!
     }
     
     func calculateRect(size: CGSize) -> CGRect {
@@ -65,22 +65,24 @@ struct GSImageInfo {
     
 }
 
-class GSTransitionInfo {
+public class GSTransitionInfo {
+    
+    public var duration: NSTimeInterval = 0.35
+    
+    public init(fromView: UIView) {
+        self.fromView = fromView
+    }
     
     weak var fromView : UIView?
     
     private var convertedRect : CGRect?
     
-    init(fromView: UIView) {
-        self.fromView = fromView
-    }
-    
 }
 
-class GSImageViewerController: UIViewController {
+public class GSImageViewerController: UIViewController {
     
-    let imageInfo      : GSImageInfo
-    var transitionInfo : GSTransitionInfo?
+    public let imageInfo      : GSImageInfo
+    public var transitionInfo : GSTransitionInfo?
     
     private let imageView  = UIImageView()
     private let scrollView = UIScrollView()
@@ -92,22 +94,22 @@ class GSImageViewerController: UIViewController {
     
     // MARK: Initialization
     
-    init(imageInfo: GSImageInfo) {
+    public init(imageInfo: GSImageInfo) {
         self.imageInfo = imageInfo
         super.init(nibName: nil, bundle: nil)
     }
     
-    convenience init(imageInfo: GSImageInfo, transitionInfo: GSTransitionInfo) {
+    public convenience init(imageInfo: GSImageInfo, transitionInfo: GSTransitionInfo) {
         self.init(imageInfo: imageInfo)
         self.transitionInfo = transitionInfo
         if let fromView = transitionInfo.fromView, referenceView = fromView.superview {
             self.transitioningDelegate = self
             self.modalPresentationStyle = .Custom
-            transitionInfo.convertedRect = referenceView.convertRect(fromView.frame, toView: view)
+            transitionInfo.convertedRect = referenceView.convertRect(fromView.frame, toView: nil)
         }
     }
     
-    convenience init(image: UIImage, imageMode: UIViewContentMode, imageHD: NSURL?, fromView: UIView?) {
+    public convenience init(image: UIImage, imageMode: UIViewContentMode, imageHD: NSURL?, fromView: UIView?) {
         let imageInfo = GSImageInfo(image: image, imageMode: GSImageInfo.ImageMode(rawValue: imageMode.rawValue)!, imageHD: imageHD)
         if let fromView = fromView {
             self.init(imageInfo: imageInfo, transitionInfo: GSTransitionInfo(fromView: fromView))
@@ -116,13 +118,13 @@ class GSImageViewerController: UIViewController {
         }
     }
     
-    required init?(coder aDecoder: NSCoder) {
+    public required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
     // MARK: Override
     
-    override func viewDidLoad() {
+    override public func viewDidLoad() {
         super.viewDidLoad()
         
         setupView()
@@ -135,7 +137,7 @@ class GSImageViewerController: UIViewController {
         automaticallyAdjustsScrollViewInsets = false
     }
     
-    override func viewWillLayoutSubviews() {
+    override public func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         
         imageView.frame = imageInfo.calculateRect(view.bounds.size)
@@ -209,11 +211,11 @@ class GSImageViewerController: UIViewController {
 
 extension GSImageViewerController: UIScrollViewDelegate {
     
-    func viewForZoomingInScrollView(scrollView: UIScrollView) -> UIView? {
+    public func viewForZoomingInScrollView(scrollView: UIScrollView) -> UIView? {
         return imageView
     }
     
-    func scrollViewDidZoom(scrollView: UIScrollView) {
+    public func scrollViewDidZoom(scrollView: UIScrollView) {
         imageView.frame = imageInfo.calculateRect(scrollView.contentSize)
     }
     
@@ -221,11 +223,11 @@ extension GSImageViewerController: UIScrollViewDelegate {
 
 extension GSImageViewerController: UIViewControllerTransitioningDelegate {
     
-    func animationControllerForPresentedController(presented: UIViewController, presentingController presenting: UIViewController, sourceController source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+    public func animationControllerForPresentedController(presented: UIViewController, presentingController presenting: UIViewController, sourceController source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         return GSImageViewerTransition(imageInfo: imageInfo, transitionInfo: transitionInfo!, transitionMode: .Present)
     }
     
-    func animationControllerForDismissedController(dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+    public func animationControllerForDismissedController(dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         return GSImageViewerTransition(imageInfo: imageInfo, transitionInfo: transitionInfo!, transitionMode: .Dismiss)
     }
     
@@ -236,8 +238,6 @@ class GSImageViewerTransition: NSObject, UIViewControllerAnimatedTransitioning {
     let imageInfo      : GSImageInfo
     let transitionInfo : GSTransitionInfo
     var transitionMode : TransitionMode
-    
-    private var duration: NSTimeInterval = 0.5
     
     enum TransitionMode {
         case Present
@@ -252,7 +252,7 @@ class GSImageViewerTransition: NSObject, UIViewControllerAnimatedTransitioning {
     }
     
     func transitionDuration(transitionContext: UIViewControllerContextTransitioning?) -> NSTimeInterval {
-        return duration
+        return transitionInfo.duration
     }
     
     func animateTransition(transitionContext: UIViewControllerContextTransitioning) {
@@ -280,7 +280,7 @@ class GSImageViewerTransition: NSObject, UIViewControllerAnimatedTransitioning {
                 tempMask.frame = imageViewer.view.bounds
                 tempImage.frame = transitionInfo.convertedRect!
             
-            UIView.animateWithDuration(duration,
+            UIView.animateWithDuration(transitionInfo.duration,
                 animations: {
                     tempMask.alpha  = 1
                     tempImage.frame = imageViewer.imageView.frame
@@ -303,7 +303,7 @@ class GSImageViewerTransition: NSObject, UIViewControllerAnimatedTransitioning {
                 tempMask.frame = imageViewer.view.bounds
                 tempImage.frame = imageViewer.view.bounds
             
-            UIView.animateWithDuration(duration,
+            UIView.animateWithDuration(transitionInfo.duration,
                 animations: {
                     tempMask.alpha  = 0
                     tempImage.frame = self.transitionInfo.convertedRect!

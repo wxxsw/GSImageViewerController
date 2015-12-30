@@ -34,35 +34,58 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CV8-oA-xaQ">
-                                <rect key="frame" x="117" y="209" width="88" height="30"/>
+                                <rect key="frame" x="117" y="114" width="88" height="30"/>
                                 <state key="normal" title="Normal Push"/>
                                 <connections>
                                     <action selector="normalPush:" destination="BYZ-38-t0r" eventType="touchUpInside" id="xcQ-o2-UeR"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vmm-GV-0hY">
-                                <rect key="frame" x="137" y="329" width="46" height="30"/>
-                                <state key="normal" title="Button"/>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vmm-GV-0hY">
+                                <rect key="frame" x="81" y="234" width="160" height="100"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="160" id="3ul-Ii-crH"/>
+                                    <constraint firstAttribute="height" constant="100" id="Oeo-TJ-0KP"/>
+                                </constraints>
+                                <state key="normal" image="1"/>
                                 <connections>
                                     <action selector="customPresent:" destination="BYZ-38-t0r" eventType="touchUpInside" id="7UH-zU-nf2"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5MG-FE-Dbh">
-                                <rect key="frame" x="107" y="269" width="107" height="30"/>
+                                <rect key="frame" x="107" y="174" width="107" height="30"/>
                                 <state key="normal" title="Normal Present"/>
                                 <connections>
                                     <action selector="normalPresent:" destination="BYZ-38-t0r" eventType="touchUpInside" id="9Fw-Ww-IZ6"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="S4W-hI-z7k">
+                                <rect key="frame" x="81" y="364" width="160" height="160"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="160" id="gMN-ey-4Mu"/>
+                                    <constraint firstAttribute="height" constant="160" id="hfx-iC-NL0"/>
+                                </constraints>
+                                <state key="normal" image="2"/>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="80"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
+                                <connections>
+                                    <action selector="cornerRadiusPresent:" destination="BYZ-38-t0r" eventType="touchUpInside" id="7ye-4a-68u"/>
+                                    <action selector="customPresent:" destination="BYZ-38-t0r" eventType="touchUpInside" id="uw4-L1-xPd"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="5MG-FE-Dbh" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="4ar-TA-pEc"/>
                             <constraint firstItem="CV8-oA-xaQ" firstAttribute="centerX" secondItem="5MG-FE-Dbh" secondAttribute="centerX" id="5I1-rW-xPY"/>
                             <constraint firstItem="5MG-FE-Dbh" firstAttribute="top" secondItem="CV8-oA-xaQ" secondAttribute="bottom" constant="30" id="Es4-8t-6cX"/>
                             <constraint firstItem="5MG-FE-Dbh" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="FzI-Hb-G9Z"/>
+                            <constraint firstItem="S4W-hI-z7k" firstAttribute="top" secondItem="vmm-GV-0hY" secondAttribute="bottom" constant="30" id="gXK-2P-E6U"/>
                             <constraint firstItem="vmm-GV-0hY" firstAttribute="top" secondItem="5MG-FE-Dbh" secondAttribute="bottom" constant="30" id="gkd-do-T7E"/>
+                            <constraint firstItem="S4W-hI-z7k" firstAttribute="centerX" secondItem="vmm-GV-0hY" secondAttribute="centerX" id="kmz-eB-PON"/>
                             <constraint firstItem="vmm-GV-0hY" firstAttribute="centerX" secondItem="5MG-FE-Dbh" secondAttribute="centerX" id="lYR-oO-s4y"/>
+                            <constraint firstItem="vmm-GV-0hY" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="vUN-NV-uPV"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="Jbs-3V-yAC"/>
@@ -72,4 +95,8 @@
             <point key="canvasLocation" x="-287" y="329"/>
         </scene>
     </scenes>
+    <resources>
+        <image name="1" width="960" height="600"/>
+        <image name="2" width="512" height="512"/>
+    </resources>
 </document>
