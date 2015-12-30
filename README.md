@@ -8,16 +8,16 @@
 
 To show normal image viewer controller:
 ```Swift
-let imageInfo   = GSImageInfo(image: `someImage`, imageMode: .AspectFit)
+let imageInfo   = GSImageInfo(image: someImage, imageMode: .AspectFit)
 let imageViewer = GSImageViewerController(imageInfo: imageInfo)
 navigationController?.pushViewController(imageViewer, animated: true)
 ```
 
 To show zoom transition image viewer controller:
 ```Swift
-let imageInfo   = GSImageInfo(image: `someImage`, imageMode: .AspectFill)
-let transitionInfo = GSTransitionInfo(fromView: `someView`)
-let imageViewer = GSImageViewerController(imageInfo: imageInfo, transitionInfo: transitionInfo)
+let imageInfo      = GSImageInfo(image: someImage, imageMode: .AspectFill)
+let transitionInfo = GSTransitionInfo(fromView: someView)
+let imageViewer    = GSImageViewerController(imageInfo: imageInfo, transitionInfo: transitionInfo)
 presentViewController(imageViewer, animated: true, completion: nil)
 ```
 
