@@ -15,7 +15,7 @@ navigationController?.pushViewController(imageViewer, animated: true)
 
 To show zoom transition image viewer controller:
 ```Swift
-let imageInfo      = GSImageInfo(image: someImage, imageMode: .AspectFill)
+let imageInfo      = GSImageInfo(image: someImage, imageMode: .AspectFill, imageHD: someHDImageURLOrNil)
 let transitionInfo = GSTransitionInfo(fromView: someView)
 let imageViewer    = GSImageViewerController(imageInfo: imageInfo, transitionInfo: transitionInfo)
 presentViewController(imageViewer, animated: true, completion: nil)
