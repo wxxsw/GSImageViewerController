@@ -46,7 +46,7 @@
                                     <constraint firstAttribute="width" constant="160" id="3ul-Ii-crH"/>
                                     <constraint firstAttribute="height" constant="100" id="Oeo-TJ-0KP"/>
                                 </constraints>
-                                <state key="normal" image="1"/>
+                                <state key="normal" image="1.jpg"/>
                                 <connections>
                                     <action selector="customPresent:" destination="BYZ-38-t0r" eventType="touchUpInside" id="7UH-zU-nf2"/>
                                 </connections>
@@ -64,7 +64,7 @@
                                     <constraint firstAttribute="width" constant="160" id="gMN-ey-4Mu"/>
                                     <constraint firstAttribute="height" constant="160" id="hfx-iC-NL0"/>
                                 </constraints>
-                                <state key="normal" image="2"/>
+                                <state key="normal" image="2.jpg"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
                                         <integer key="value" value="80"/>
@@ -96,7 +96,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="1" width="960" height="600"/>
-        <image name="2" width="512" height="512"/>
+        <image name="1.jpg" width="1920" height="1200"/>
+        <image name="2.jpg" width="1024" height="1024"/>
     </resources>
 </document>
