@@ -168,12 +168,12 @@ public class GSImageViewerController: UIViewController {
     }
     
     private func setupGesture() {
-        let singleTap = UITapGestureRecognizer(target: self, action: "singleTap")
-        let doubleTap = UITapGestureRecognizer(target: self, action: "doubleTap:")
-        doubleTap.numberOfTapsRequired = 2
-        singleTap.requireGestureRecognizerToFail(doubleTap)
-        scrollView.addGestureRecognizer(singleTap)
-        scrollView.addGestureRecognizer(doubleTap)
+        let single = UITapGestureRecognizer(target: self, action: #selector(singleTap))
+        let double = UITapGestureRecognizer(target: self, action: #selector(doubleTap(_:)))
+        double.numberOfTapsRequired = 2
+        single.requireGestureRecognizerToFail(double)
+        scrollView.addGestureRecognizer(single)
+        scrollView.addGestureRecognizer(double)
     }
     
     private func setupImageHD() {
