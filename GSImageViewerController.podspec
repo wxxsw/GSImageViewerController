@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "GSImageViewerController"
-  s.version      = "1.0.1"
+  s.version      = "1.1.1"
   s.summary      = "A image viewer controller with zoom transition, in Swift."
   s.homepage     = "https://github.com/wxxsw/GSMessages"
 
