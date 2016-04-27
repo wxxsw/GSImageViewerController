@@ -68,6 +68,7 @@ public struct GSImageInfo {
 public class GSTransitionInfo {
     
     public var duration: NSTimeInterval = 0.35
+    public var canSwipe: Bool           = true
     
     public init(fromView: UIView) {
         self.fromView = fromView
@@ -174,6 +175,12 @@ public class GSImageViewerController: UIViewController {
         single.requireGestureRecognizerToFail(double)
         scrollView.addGestureRecognizer(single)
         scrollView.addGestureRecognizer(double)
+        
+        if transitionInfo?.canSwipe == true {
+            let pan = UIPanGestureRecognizer(target: self, action: #selector(pan(_:)))
+            pan.delegate = self
+            scrollView.addGestureRecognizer(pan)
+        }
     }
     
     private func setupImageHD() {
@@ -204,6 +211,63 @@ public class GSImageViewerController: UIViewController {
             scrollView.zoomToRect(CGRectMake(point.x-40, point.y-40, 80, 80), animated: true)
         } else {
             scrollView.setZoomScale(1.0, animated: true)
+        }
+    }
+    
+    private var panViewOrigin : CGPoint?
+    private var panViewAlpha  : CGFloat = 1
+    
+    @objc private func pan(gesture: UIPanGestureRecognizer) {
+        
+        func getProgress() -> CGFloat {
+            let origin = panViewOrigin!
+            let changeX = abs(scrollView.center.x - origin.x)
+            let changeY = abs(scrollView.center.y - origin.y)
+            let progressX = changeX / CGRectGetWidth(view.bounds)
+            let progressY = changeY / CGRectGetHeight(view.bounds)
+            return max(progressX, progressY)
+        }
+        
+        func getChanged() -> CGPoint {
+            let origin = scrollView.center
+            let change = gesture.translationInView(view)
+            return CGPoint(x: origin.x + change.x, y: origin.y + change.y)
+        }
+
+        switch gesture.state {
+
+        case .Began:
+            
+            panViewOrigin = scrollView.center
+            
+        case .Changed:
+            
+            scrollView.center = getChanged()
+            panViewAlpha = 1 - getProgress()
+            view.backgroundColor = UIColor(white: 0.0, alpha: panViewAlpha)
+            gesture.setTranslation(CGPointZero, inView: nil)
+
+        case .Ended:
+            
+            if getProgress() > 0.25 {
+                dismissViewControllerAnimated(true, completion: nil)
+            } else {
+                fallthrough
+            }
+            
+        default:
+            
+            UIView.animateWithDuration(0.3,
+                animations: {
+                    self.scrollView.center = self.panViewOrigin!
+                    self.view.backgroundColor = UIColor(white: 0.0, alpha: 1.0)
+                },
+                completion: { _ in
+                    self.panViewOrigin = nil
+                    self.panViewAlpha  = 1.0
+                }
+            )
+            
         }
     }
     
@@ -300,8 +364,9 @@ class GSImageViewerTransition: NSObject, UIViewControllerAnimatedTransitioning {
             let imageViewer = transitionContext.viewControllerForKey(UITransitionContextFromViewControllerKey) as! GSImageViewerController
                 imageViewer.view.removeFromSuperview()
             
+                tempMask.alpha = imageViewer.panViewAlpha
                 tempMask.frame = imageViewer.view.bounds
-                tempImage.frame = imageViewer.view.bounds
+                tempImage.frame = imageViewer.scrollView.frame
             
             UIView.animateWithDuration(transitionInfo.duration,
                 animations: {
@@ -317,6 +382,22 @@ class GSImageViewerTransition: NSObject, UIViewControllerAnimatedTransitioning {
             
         }
         
+    }
+    
+}
+
+extension GSImageViewerController: UIGestureRecognizerDelegate {
+    
+    public func gestureRecognizerShouldBegin(gestureRecognizer: UIGestureRecognizer) -> Bool {
+        if let pan = gestureRecognizer as? UIPanGestureRecognizer {
+            if scrollView.zoomScale != 1.0 {
+                return false
+            }
+            if imageInfo.imageMode == .AspectFill && (scrollView.contentOffset.x > 0 || pan.translationInView(view).x <= 0) {
+                return false
+            }
+        }
+        return true
     }
     
 }
