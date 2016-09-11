@@ -14,30 +14,30 @@ class ViewController: UIViewController {
         super.viewDidLoad()
     }
 
-    @IBAction func normalPush(sender: AnyObject) {
-        let imageInfo   = GSImageInfo(image: UIImage(named: "0.jpg")!, imageMode: .AspectFit)
+    @IBAction func normalPush(_ sender: AnyObject) {
+        let imageInfo   = GSImageInfo(image: UIImage(named: "0.jpg")!, imageMode: .aspectFit)
         let imageViewer = GSImageViewerController(imageInfo: imageInfo)
         navigationController?.pushViewController(imageViewer, animated: true)
     }
     
-    @IBAction func normalPresent(sender: AnyObject) {
-        let imageInfo   = GSImageInfo(image: UIImage(named: "0.jpg")!, imageMode: .AspectFill)
+    @IBAction func normalPresent(_ sender: AnyObject) {
+        let imageInfo   = GSImageInfo(image: UIImage(named: "0.jpg")!, imageMode: .aspectFill)
         let imageViewer = GSImageViewerController(imageInfo: imageInfo)
-        presentViewController(imageViewer, animated: true, completion: nil)
+        present(imageViewer, animated: true, completion: nil)
     }
     
-    @IBAction func customPresent(sender: UIButton) {
-        let imageInfo   = GSImageInfo(image: UIImage(named: "1.jpg")!, imageMode: .AspectFill)
+    @IBAction func customPresent(_ sender: UIButton) {
+        let imageInfo   = GSImageInfo(image: UIImage(named: "1.jpg")!, imageMode: .aspectFill)
         let transitionInfo = GSTransitionInfo(fromView: sender)
         let imageViewer = GSImageViewerController(imageInfo: imageInfo, transitionInfo: transitionInfo)
-        presentViewController(imageViewer, animated: true, completion: nil)
+        present(imageViewer, animated: true, completion: nil)
     }
     
-    @IBAction func cornerRadiusPresent(sender: UIButton) {
-        let imageInfo   = GSImageInfo(image: UIImage(named: "2.jpg")!, imageMode: .AspectFit)
+    @IBAction func cornerRadiusPresent(_ sender: UIButton) {
+        let imageInfo   = GSImageInfo(image: UIImage(named: "2.jpg")!, imageMode: .aspectFit)
         let transitionInfo = GSTransitionInfo(fromView: sender)
         let imageViewer = GSImageViewerController(imageInfo: imageInfo, transitionInfo: transitionInfo)
-        presentViewController(imageViewer, animated: true, completion: nil)
+        present(imageViewer, animated: true, completion: nil)
     }
     
 }
