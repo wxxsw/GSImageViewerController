@@ -339,7 +339,7 @@ class GSImageViewerTransition: NSObject, UIViewControllerAnimatedTransitioning {
         containerView.addSubview(tempImage)
         
         if transitionMode == .present {
-            
+            transitionInfo.fromView!.alpha = 0
             let imageViewer = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.to) as! GSImageViewerController
                 imageViewer.view.layoutIfNeeded()
             
@@ -379,6 +379,7 @@ class GSImageViewerTransition: NSObject, UIViewControllerAnimatedTransitioning {
                 completion: { _ in
                     tempMask.removeFromSuperview()
                     imageViewer.view.removeFromSuperview()
+                    self.transitionInfo.fromView!.alpha = 1
                     transitionContext.completeTransition(true)
                 }
             )
