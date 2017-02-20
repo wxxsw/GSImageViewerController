@@ -233,7 +233,12 @@ open class GSImageViewerController: UIViewController {
             let change = gesture.translation(in: view)
             return CGPoint(x: origin.x + change.x, y: origin.y + change.y)
         }
-
+        
+        func getVelocity() -> CGFloat {
+            let vel = gesture.velocity(in: scrollView)
+            return sqrt(vel.x*vel.x + vel.y*vel.y)
+        }
+        
         switch gesture.state {
 
         case .began:
@@ -249,7 +254,7 @@ open class GSImageViewerController: UIViewController {
 
         case .ended:
             
-            if getProgress() > 0.25 {
+            if getProgress() > 0.25 || getVelocity() > 1000 {
                 dismiss(animated: true, completion: nil)
             } else {
                 fallthrough
@@ -334,7 +339,7 @@ class GSImageViewerTransition: NSObject, UIViewControllerAnimatedTransitioning {
         containerView.addSubview(tempImage)
         
         if transitionMode == .present {
-            
+            transitionInfo.fromView!.alpha = 0
             let imageViewer = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.to) as! GSImageViewerController
                 imageViewer.view.layoutIfNeeded()
             
@@ -374,6 +379,7 @@ class GSImageViewerTransition: NSObject, UIViewControllerAnimatedTransitioning {
                 completion: { _ in
                     tempMask.removeFromSuperview()
                     imageViewer.view.removeFromSuperview()
+                    self.transitionInfo.fromView!.alpha = 1
                     transitionContext.completeTransition(true)
                 }
             )
