@@ -37,6 +37,11 @@ class ViewController: UIViewController {
         let imageInfo   = GSImageInfo(image: UIImage(named: "2.jpg")!, imageMode: .aspectFit)
         let transitionInfo = GSTransitionInfo(fromView: sender)
         let imageViewer = GSImageViewerController(imageInfo: imageInfo, transitionInfo: transitionInfo)
+        
+        imageViewer.dismissCompletion = {
+            print("dismissCompletion")
+        }
+        
         present(imageViewer, animated: true, completion: nil)
     }
     

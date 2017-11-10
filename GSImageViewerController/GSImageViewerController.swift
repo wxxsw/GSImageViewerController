@@ -68,7 +68,7 @@ public struct GSImageInfo {
 open class GSTransitionInfo {
     
     open var duration: TimeInterval = 0.35
-    open var canSwipe: Bool           = true
+    open var canSwipe: Bool         = true
     
     public init(fromView: UIView) {
         self.fromView = fromView
@@ -85,10 +85,12 @@ open class GSImageViewerController: UIViewController {
     open let imageInfo      : GSImageInfo
     open var transitionInfo : GSTransitionInfo?
     
-    fileprivate let imageView  = UIImageView()
-    fileprivate let scrollView = UIScrollView()
+    open let imageView  = UIImageView()
+    open let scrollView = UIScrollView()
     
-    fileprivate lazy var session: URLSession = {
+    open var dismissCompletion: (() -> Void)?
+    
+    open lazy var session: URLSession = {
         let configuration = URLSessionConfiguration.ephemeral
         return URLSession(configuration: configuration, delegate: nil, delegateQueue: OperationQueue.main)
     }()
@@ -200,7 +202,7 @@ open class GSImageViewerController: UIViewController {
     
     @objc fileprivate func singleTap() {
         if navigationController == nil || (presentingViewController != nil && navigationController!.viewControllers.count <= 1) {
-            dismiss(animated: true, completion: nil)
+            dismiss(animated: true, completion: dismissCompletion)
         }
     }
     
@@ -255,7 +257,7 @@ open class GSImageViewerController: UIViewController {
         case .ended:
             
             if getProgress() > 0.25 || getVelocity() > 1000 {
-                dismiss(animated: true, completion: nil)
+                dismiss(animated: true, completion: dismissCompletion)
             } else {
                 fallthrough
             }
