@@ -74,6 +74,10 @@ open class GSTransitionInfo {
         self.fromView = fromView
     }
     
+    public init(fromRect: CGRect) {
+        self.convertedRect = fromRect
+    }
+    
     weak var fromView : UIView?
     
     fileprivate var convertedRect : CGRect?
@@ -105,10 +109,14 @@ open class GSImageViewerController: UIViewController {
     public convenience init(imageInfo: GSImageInfo, transitionInfo: GSTransitionInfo) {
         self.init(imageInfo: imageInfo)
         self.transitionInfo = transitionInfo
-        if let fromView = transitionInfo.fromView, let referenceView = fromView.superview {
+        if
+            let fromView = transitionInfo.fromView,
+            let referenceView = fromView.superview {
+            transitionInfo.convertedRect = referenceView.convert(fromView.frame, to: nil)
+        }
+        if transitionInfo.convertedRect != nil {
             self.transitioningDelegate = self
             self.modalPresentationStyle = .custom
-            transitionInfo.convertedRect = referenceView.convert(fromView.frame, to: nil)
         }
     }
     
@@ -333,7 +341,7 @@ class GSImageViewerTransition: NSObject, UIViewControllerAnimatedTransitioning {
             tempMask.backgroundColor = UIColor.black
         
         let tempImage = UIImageView(image: imageInfo.image)
-            tempImage.layer.cornerRadius = transitionInfo.fromView!.layer.cornerRadius
+            tempImage.layer.cornerRadius = transitionInfo.fromView?.layer.cornerRadius ?? 0
             tempImage.layer.masksToBounds = true
             tempImage.contentMode = imageInfo.contentMode
         
@@ -341,7 +349,7 @@ class GSImageViewerTransition: NSObject, UIViewControllerAnimatedTransitioning {
         containerView.addSubview(tempImage)
         
         if transitionMode == .present {
-            transitionInfo.fromView!.alpha = 0
+            transitionInfo.fromView?.alpha = 0
             let imageViewer = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.to) as! GSImageViewerController
                 imageViewer.view.layoutIfNeeded()
             
@@ -381,7 +389,7 @@ class GSImageViewerTransition: NSObject, UIViewControllerAnimatedTransitioning {
                 completion: { _ in
                     tempMask.removeFromSuperview()
                     imageViewer.view.removeFromSuperview()
-                    self.transitionInfo.fromView!.alpha = 1
+                    self.transitionInfo.fromView?.alpha = 1
                     transitionContext.completeTransition(true)
                 }
             )
