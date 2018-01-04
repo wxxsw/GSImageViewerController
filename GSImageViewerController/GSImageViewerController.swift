@@ -379,7 +379,7 @@ class GSImageViewerTransition: NSObject, UIViewControllerAnimatedTransitioning {
             
                 tempMask.alpha = imageViewer.panViewAlpha
                 tempMask.frame = imageViewer.view.bounds
-                tempImage.frame = imageViewer.scrollView.frame
+                tempImage.frame = CGRect(x: imageViewer.scrollView.contentOffset.x * -1, y: imageViewer.scrollView.contentOffset.y * -1, width: imageViewer.scrollView.contentSize.width, height: imageViewer.scrollView.contentSize.height)
             
             UIView.animate(withDuration: transitionInfo.duration,
                 animations: {
