@@ -94,6 +94,12 @@ open class GSImageViewerController: UIViewController {
     
     open var dismissCompletion: (() -> Void)?
     
+    open var backgroundColor: UIColor = .black {
+        didSet {
+            view.backgroundColor = backgroundColor
+        }
+    }
+    
     open lazy var session: URLSession = {
         let configuration = URLSessionConfiguration.ephemeral
         return URLSession(configuration: configuration, delegate: nil, delegateQueue: OperationQueue.main)
@@ -161,7 +167,7 @@ open class GSImageViewerController: UIViewController {
     // MARK: Setups
     
     fileprivate func setupView() {
-        view.backgroundColor = UIColor.black
+        view.backgroundColor = backgroundColor
     }
     
     fileprivate func setupScrollView() {
@@ -259,7 +265,7 @@ open class GSImageViewerController: UIViewController {
             
             scrollView.center = getChanged()
             panViewAlpha = 1 - getProgress()
-            view.backgroundColor = UIColor(white: 0.0, alpha: panViewAlpha)
+            view.backgroundColor = backgroundColor.withAlphaComponent(panViewAlpha)
             gesture.setTranslation(CGPoint.zero, in: nil)
 
         case .ended:
@@ -275,7 +281,7 @@ open class GSImageViewerController: UIViewController {
             UIView.animate(withDuration: 0.3,
                 animations: {
                     self.scrollView.center = self.panViewOrigin!
-                    self.view.backgroundColor = UIColor(white: 0.0, alpha: 1.0)
+                    self.view.backgroundColor = self.backgroundColor
                 },
                 completion: { _ in
                     self.panViewOrigin = nil
