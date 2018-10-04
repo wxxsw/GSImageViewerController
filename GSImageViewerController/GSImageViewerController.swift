@@ -86,11 +86,11 @@ open class GSTransitionInfo {
 
 open class GSImageViewerController: UIViewController {
     
-    open let imageInfo      : GSImageInfo
+    public let imageInfo      : GSImageInfo
     open var transitionInfo : GSTransitionInfo?
     
-    open let imageView  = UIImageView()
-    open let scrollView = UIScrollView()
+    public let imageView  = UIImageView()
+    public let scrollView = UIScrollView()
     
     open var dismissCompletion: (() -> Void)?
     
