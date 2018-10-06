@@ -19,8 +19,8 @@ public struct GSImageInfo {
     public let imageMode : ImageMode
     public var imageHD   : URL?
     
-    public var contentMode : UIViewContentMode {
-        return UIViewContentMode(rawValue: imageMode.rawValue)!
+    public var contentMode : UIView.ContentMode {
+        return UIView.ContentMode(rawValue: imageMode.rawValue)!
     }
     
     public init(image: UIImage, imageMode: ImageMode) {
@@ -86,11 +86,11 @@ open class GSTransitionInfo {
 
 open class GSImageViewerController: UIViewController {
     
-    open let imageInfo      : GSImageInfo
+    public let imageInfo      : GSImageInfo
     open var transitionInfo : GSTransitionInfo?
     
-    open let imageView  = UIImageView()
-    open let scrollView = UIScrollView()
+    public let imageView  = UIImageView()
+    public let scrollView = UIScrollView()
     
     open var dismissCompletion: (() -> Void)?
     
@@ -120,7 +120,7 @@ open class GSImageViewerController: UIViewController {
         }
     }
     
-    public convenience init(image: UIImage, imageMode: UIViewContentMode, imageHD: URL?, fromView: UIView?) {
+    public convenience init(image: UIImage, imageMode: UIView.ContentMode, imageHD: URL?, fromView: UIView?) {
         let imageInfo = GSImageInfo(image: image, imageMode: GSImageInfo.ImageMode(rawValue: imageMode.rawValue)!, imageHD: imageHD)
         if let fromView = fromView {
             self.init(imageInfo: imageInfo, transitionInfo: GSTransitionInfo(fromView: fromView))
