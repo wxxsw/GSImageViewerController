@@ -26,6 +26,11 @@ present(imageViewer, animated: true, completion: nil)
 ### Master
 
 - iOS 8.0+
+- Xcode 10 (Swift 4.2)
+
+### [1.4.2](https://github.com/wxxsw/GSImageViewerController/tree/1.4.2)
+
+- iOS 8.0+
 - Xcode 9 (Swift 4)
 
 ### [1.2.1](https://github.com/wxxsw/GSImageViewerController/tree/1.2.1)
