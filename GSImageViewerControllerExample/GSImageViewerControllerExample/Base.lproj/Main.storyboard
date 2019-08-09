@@ -1,8 +1,12 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="10116" systemVersion="15A282b" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="yHS-R4-Bqk">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES" initialViewController="yHS-R4-Bqk">
+    <device id="retina6_1" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
         <!--Navigation Controller-->
@@ -10,7 +14,7 @@
             <objects>
                 <navigationController id="yHS-R4-Bqk" sceneMemberID="viewController">
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="yMB-1K-j4R">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
@@ -19,7 +23,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="zdK-ZS-fUq" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-694" y="329"/>
+            <point key="canvasLocation" x="-1083" y="220"/>
         </scene>
         <!--View Controller-->
         <scene sceneID="tne-QT-ifu">
@@ -30,18 +34,18 @@
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CV8-oA-xaQ">
-                                <rect key="frame" x="117" y="114" width="88" height="30"/>
+                                <rect key="frame" x="163" y="278" width="88" height="30"/>
                                 <state key="normal" title="Normal Push"/>
                                 <connections>
                                     <action selector="normalPush:" destination="BYZ-38-t0r" eventType="touchUpInside" id="xcQ-o2-UeR"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vmm-GV-0hY">
-                                <rect key="frame" x="81" y="234" width="160" height="100"/>
+                                <rect key="frame" x="127" y="398" width="160" height="100"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="160" id="3ul-Ii-crH"/>
                                     <constraint firstAttribute="height" constant="100" id="Oeo-TJ-0KP"/>
@@ -52,14 +56,14 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5MG-FE-Dbh">
-                                <rect key="frame" x="107" y="174" width="107" height="30"/>
+                                <rect key="frame" x="153.5" y="338" width="107" height="30"/>
                                 <state key="normal" title="Normal Present"/>
                                 <connections>
                                     <action selector="normalPresent:" destination="BYZ-38-t0r" eventType="touchUpInside" id="9Fw-Ww-IZ6"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="S4W-hI-z7k">
-                                <rect key="frame" x="81" y="364" width="160" height="160"/>
+                            <button opaque="NO" clipsSubviews="YES" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="S4W-hI-z7k">
+                                <rect key="frame" x="127" y="528" width="160" height="160"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="160" id="gMN-ey-4Mu"/>
                                     <constraint firstAttribute="height" constant="160" id="hfx-iC-NL0"/>
@@ -75,7 +79,7 @@
                                 </connections>
                             </button>
                         </subviews>
-                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="CV8-oA-xaQ" firstAttribute="centerX" secondItem="5MG-FE-Dbh" secondAttribute="centerX" id="5I1-rW-xPY"/>
                             <constraint firstItem="5MG-FE-Dbh" firstAttribute="top" secondItem="CV8-oA-xaQ" secondAttribute="bottom" constant="30" id="Es4-8t-6cX"/>
@@ -91,11 +95,11 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-287" y="329"/>
+            <point key="canvasLocation" x="-415.94202898550731" y="220.3125"/>
         </scene>
     </scenes>
     <resources>
-        <image name="1.jpg" width="1920" height="1200"/>
+        <image name="1.jpg" width="1440" height="900"/>
         <image name="2.jpg" width="1024" height="1024"/>
     </resources>
 </document>

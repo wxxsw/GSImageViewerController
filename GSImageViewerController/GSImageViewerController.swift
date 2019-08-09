@@ -33,26 +33,23 @@ public struct GSImageInfo {
         self.imageHD = imageHD
     }
     
-    func calculateRect(_ size: CGSize) -> CGRect {
-        
-        let widthRatio  = size.width  / image.size.width
-        let heightRatio = size.height / image.size.height
-        
-        switch imageMode {
+    func calculate(rect: CGRect, origin: CGPoint? = nil, imageMode: ImageMode? = nil) -> CGRect {
+        switch imageMode ?? self.imageMode {
             
         case .aspectFit:
-            
-            return CGRect(origin: CGPoint.zero, size: size)
+            return rect
             
         case .aspectFill:
+            let r = max(rect.size.width / image.size.width, rect.size.height / image.size.height)
+            let w = image.size.width * r
+            let h = image.size.height * r
             
             return CGRect(
-                x      : 0,
-                y      : 0,
-                width  : image.size.width  * max(widthRatio, heightRatio),
-                height : image.size.height * max(widthRatio, heightRatio)
+                x      : origin?.x ?? rect.origin.x - (w - rect.width) / 2,
+                y      : origin?.y ?? rect.origin.y - (h - rect.height) / 2,
+                width  : w,
+                height : h
             )
-            
         }
     }
     
@@ -78,19 +75,21 @@ open class GSTransitionInfo {
         self.convertedRect = fromRect
     }
     
-    weak var fromView : UIView?
+    weak var fromView: UIView?
     
-    fileprivate var convertedRect : CGRect?
+    fileprivate var fromRect: CGRect!
+    fileprivate var convertedRect: CGRect!
     
 }
 
 open class GSImageViewerController: UIViewController {
     
-    public let imageInfo      : GSImageInfo
-    open var transitionInfo : GSTransitionInfo?
-    
     public let imageView  = UIImageView()
     public let scrollView = UIScrollView()
+    
+    public let imageInfo: GSImageInfo
+    
+    open var transitionInfo: GSTransitionInfo?
     
     open var dismissCompletion: (() -> Void)?
     
@@ -115,11 +114,20 @@ open class GSImageViewerController: UIViewController {
     public convenience init(imageInfo: GSImageInfo, transitionInfo: GSTransitionInfo) {
         self.init(imageInfo: imageInfo)
         self.transitionInfo = transitionInfo
-        if
-            let fromView = transitionInfo.fromView,
-            let referenceView = fromView.superview {
-            transitionInfo.convertedRect = referenceView.convert(fromView.frame, to: nil)
+        
+        if let fromView = transitionInfo.fromView, let referenceView = fromView.superview {
+            transitionInfo.fromRect = referenceView.convert(fromView.frame, to: nil)
+            
+            if fromView.contentMode != imageInfo.contentMode {
+                transitionInfo.convertedRect = imageInfo.calculate(
+                    rect: transitionInfo.fromRect!,
+                    imageMode: GSImageInfo.ImageMode(rawValue: fromView.contentMode.rawValue)
+                )
+            } else {
+                transitionInfo.convertedRect = transitionInfo.fromRect
+            }
         }
+        
         if transitionInfo.convertedRect != nil {
             self.transitioningDelegate = self
             self.modalPresentationStyle = .custom
@@ -128,6 +136,7 @@ open class GSImageViewerController: UIViewController {
     
     public convenience init(image: UIImage, imageMode: UIView.ContentMode, imageHD: URL?, fromView: UIView?) {
         let imageInfo = GSImageInfo(image: image, imageMode: GSImageInfo.ImageMode(rawValue: imageMode.rawValue)!, imageHD: imageHD)
+        
         if let fromView = fromView {
             self.init(imageInfo: imageInfo, transitionInfo: GSTransitionInfo(fromView: fromView))
         } else {
@@ -157,7 +166,7 @@ open class GSImageViewerController: UIViewController {
     override open func viewWillLayoutSubviews() {
         super.viewWillLayoutSubviews()
         
-        imageView.frame = imageInfo.calculateRect(view.bounds.size)
+        imageView.frame = imageInfo.calculate(rect: view.bounds, origin: .zero)
         
         scrollView.frame = view.bounds
         scrollView.contentSize = imageView.bounds.size
@@ -301,7 +310,7 @@ extension GSImageViewerController: UIScrollViewDelegate {
     }
     
     public func scrollViewDidZoom(_ scrollView: UIScrollView) {
-        imageView.frame = imageInfo.calculateRect(scrollView.contentSize)
+        imageView.frame = imageInfo.calculate(rect: CGRect(origin: .zero, size: scrollView.contentSize), origin: .zero)
     }
     
 }
@@ -343,70 +352,72 @@ class GSImageViewerTransition: NSObject, UIViewControllerAnimatedTransitioning {
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
         let containerView = transitionContext.containerView
         
+        let tempBackground = UIView()
+            tempBackground.backgroundColor = UIColor.black
+        
         let tempMask = UIView()
-            tempMask.backgroundColor = UIColor.black
+            tempMask.backgroundColor = .black
+            tempMask.layer.cornerRadius = transitionInfo.fromView?.layer.cornerRadius ?? 0
+            tempMask.layer.masksToBounds = transitionInfo.fromView?.layer.masksToBounds ?? false
         
         let tempImage = UIImageView(image: imageInfo.image)
-            tempImage.layer.cornerRadius = transitionInfo.fromView?.layer.cornerRadius ?? 0
-            tempImage.layer.masksToBounds = true
             tempImage.contentMode = imageInfo.contentMode
+            tempImage.mask = tempMask
         
-        containerView.addSubview(tempMask)
+        containerView.addSubview(tempBackground)
         containerView.addSubview(tempImage)
         
         if transitionMode == .present {
-            transitionInfo.fromView?.alpha = 0
             let imageViewer = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.to) as! GSImageViewerController
                 imageViewer.view.layoutIfNeeded()
             
-                tempMask.alpha = 0
-                tempMask.frame = imageViewer.view.bounds
-                tempImage.frame = transitionInfo.convertedRect!
+            tempBackground.alpha = 0
+            tempBackground.frame = imageViewer.view.bounds
+            tempImage.frame = transitionInfo.convertedRect
+            tempMask.frame = tempImage.convert(transitionInfo.fromRect, from: nil)
             
-            UIView.animate(withDuration: transitionInfo.duration,
-                animations: {
-                    tempMask.alpha  = 1
-                    tempImage.frame = imageViewer.imageView.frame
-                },
-                completion: { _ in
-                    tempMask.removeFromSuperview()
-                    tempImage.removeFromSuperview()
-                    containerView.addSubview(imageViewer.view)
-                    transitionContext.completeTransition(true)
-                }
-            )
+            transitionInfo.fromView?.alpha = 0
             
+            UIView.animate(withDuration: transitionInfo.duration, animations: {
+                tempBackground.alpha  = 1
+                tempImage.frame = imageViewer.imageView.frame
+                tempMask.frame = tempImage.bounds
+            }, completion: { _ in
+                tempBackground.removeFromSuperview()
+                tempImage.removeFromSuperview()
+                containerView.addSubview(imageViewer.view)
+                transitionContext.completeTransition(true)
+            })
         }
         
-        if transitionMode == .dismiss {
-            
+        else if transitionMode == .dismiss {
             let imageViewer = transitionContext.viewController(forKey: UITransitionContextViewControllerKey.from) as! GSImageViewerController
                 imageViewer.view.removeFromSuperview()
             
-                tempMask.alpha = imageViewer.panViewAlpha
-                tempMask.frame = imageViewer.view.bounds
-                if imageViewer.scrollView.zoomScale == 1 {
-                    tempImage.frame = imageViewer.scrollView.frame
-                } else {
-                    tempImage.frame = CGRect(x: imageViewer.scrollView.contentOffset.x * -1, y: imageViewer.scrollView.contentOffset.y * -1, width: imageViewer.scrollView.contentSize.width, height: imageViewer.scrollView.contentSize.height)
-                }       
-            UIView.animate(withDuration: transitionInfo.duration,
-                animations: {
-                    tempMask.alpha  = 0
-                    tempImage.frame = self.transitionInfo.convertedRect!
-                },
-                completion: { _ in
-                    tempMask.removeFromSuperview()
-                    imageViewer.view.removeFromSuperview()
-                    self.transitionInfo.fromView?.alpha = 1
-                    transitionContext.completeTransition(true)
-                }
-            )
+            tempBackground.alpha = imageViewer.panViewAlpha
+            tempBackground.frame = imageViewer.view.bounds
             
+            if imageViewer.scrollView.zoomScale == 1 && imageInfo.imageMode == .aspectFit {
+                tempImage.frame = imageViewer.scrollView.frame
+            } else {
+                tempImage.frame = CGRect(x: imageViewer.scrollView.contentOffset.x * -1, y: imageViewer.scrollView.contentOffset.y * -1, width: imageViewer.scrollView.contentSize.width, height: imageViewer.scrollView.contentSize.height)
+            }
+            
+            tempMask.frame = tempImage.bounds
+            
+            UIView.animate(withDuration: transitionInfo.duration, animations: {
+                tempBackground.alpha = 0
+                tempImage.frame = self.transitionInfo.convertedRect
+                tempMask.frame = tempImage.convert(self.transitionInfo.fromRect, from: nil)
+            }, completion: { _ in
+                tempBackground.removeFromSuperview()
+                tempImage.removeFromSuperview()
+                imageViewer.view.removeFromSuperview()
+                self.transitionInfo.fromView?.alpha = 1
+                transitionContext.completeTransition(true)
+            })
         }
-        
     }
-    
 }
 
 extension GSImageViewerController: UIGestureRecognizerDelegate {
