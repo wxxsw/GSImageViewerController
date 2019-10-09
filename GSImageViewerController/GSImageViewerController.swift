@@ -130,7 +130,7 @@ open class GSImageViewerController: UIViewController {
         
         if transitionInfo.convertedRect != nil {
             self.transitioningDelegate = self
-            self.modalPresentationStyle = .custom
+            self.modalPresentationStyle = .overFullScreen
         }
     }
     

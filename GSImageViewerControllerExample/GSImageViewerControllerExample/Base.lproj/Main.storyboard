@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES" initialViewController="yHS-R4-Bqk">
-    <device id="retina6_1" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" colorMatched="YES" initialViewController="yHS-R4-Bqk">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
@@ -13,7 +11,7 @@
         <scene sceneID="eTu-1h-flr">
             <objects>
                 <navigationController id="yHS-R4-Bqk" sceneMemberID="viewController">
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="yMB-1K-j4R">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" translucent="NO" id="yMB-1K-j4R">
                         <rect key="frame" x="0.0" y="44" width="414" height="44"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -25,7 +23,7 @@
             </objects>
             <point key="canvasLocation" x="-1083" y="220"/>
         </scene>
-        <!--View Controller-->
+        <!--GSImageViewerController-->
         <scene sceneID="tne-QT-ifu">
             <objects>
                 <viewController id="BYZ-38-t0r" customClass="ViewController" customModule="GSImageViewerControllerExample" customModuleProvider="target" sceneMemberID="viewController">
@@ -34,18 +32,18 @@
                         <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
                     </layoutGuides>
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="808"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CV8-oA-xaQ">
-                                <rect key="frame" x="163" y="278" width="88" height="30"/>
+                                <rect key="frame" x="163" y="234" width="88" height="30"/>
                                 <state key="normal" title="Normal Push"/>
                                 <connections>
                                     <action selector="normalPush:" destination="BYZ-38-t0r" eventType="touchUpInside" id="xcQ-o2-UeR"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vmm-GV-0hY">
-                                <rect key="frame" x="127" y="398" width="160" height="100"/>
+                                <rect key="frame" x="127" y="354" width="160" height="100"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="160" id="3ul-Ii-crH"/>
                                     <constraint firstAttribute="height" constant="100" id="Oeo-TJ-0KP"/>
@@ -56,14 +54,14 @@
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5MG-FE-Dbh">
-                                <rect key="frame" x="153.5" y="338" width="107" height="30"/>
+                                <rect key="frame" x="153.5" y="294" width="107" height="30"/>
                                 <state key="normal" title="Normal Present"/>
                                 <connections>
                                     <action selector="normalPresent:" destination="BYZ-38-t0r" eventType="touchUpInside" id="9Fw-Ww-IZ6"/>
                                 </connections>
                             </button>
                             <button opaque="NO" clipsSubviews="YES" contentMode="scaleAspectFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="S4W-hI-z7k">
-                                <rect key="frame" x="127" y="528" width="160" height="160"/>
+                                <rect key="frame" x="127" y="484" width="160" height="160"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="160" id="gMN-ey-4Mu"/>
                                     <constraint firstAttribute="height" constant="160" id="hfx-iC-NL0"/>
@@ -91,7 +89,7 @@
                             <constraint firstItem="vmm-GV-0hY" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="vUN-NV-uPV"/>
                         </constraints>
                     </view>
-                    <navigationItem key="navigationItem" id="Jbs-3V-yAC"/>
+                    <navigationItem key="navigationItem" title="GSImageViewerController" id="Jbs-3V-yAC"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
