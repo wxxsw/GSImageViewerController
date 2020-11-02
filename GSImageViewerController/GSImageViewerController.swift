@@ -64,8 +64,14 @@ public struct GSImageInfo {
 
 open class GSTransitionInfo {
     
+    public enum Animation {
+        case linear
+        case spring(damping: CGFloat, initialVelocity: CGFloat)
+    }
+    
     open var duration: TimeInterval = 0.35
     open var canSwipe: Bool         = true
+    open var animation: Animation   = .linear
     
     public init(fromView: UIView) {
         self.fromView = fromView
@@ -378,11 +384,11 @@ class GSImageViewerTransition: NSObject, UIViewControllerAnimatedTransitioning {
             
             transitionInfo.fromView?.alpha = 0
             
-            UIView.animate(withDuration: transitionInfo.duration, animations: {
+            animationBlock(for: transitionInfo, {
                 tempBackground.alpha  = 1
                 tempImage.frame = imageViewer.imageView.frame
                 tempMask.frame = tempImage.bounds
-            }, completion: { _ in
+            }, {
                 tempBackground.removeFromSuperview()
                 tempImage.removeFromSuperview()
                 containerView.addSubview(imageViewer.view)
@@ -405,17 +411,43 @@ class GSImageViewerTransition: NSObject, UIViewControllerAnimatedTransitioning {
             
             tempMask.frame = tempImage.bounds
             
-            UIView.animate(withDuration: transitionInfo.duration, animations: {
+            self.animationBlock(for: transitionInfo, { [weak self] in
+                guard let strongSelf = self else {
+                    return
+                }
                 tempBackground.alpha = 0
-                tempImage.frame = self.transitionInfo.convertedRect
-                tempMask.frame = tempImage.convert(self.transitionInfo.fromRect, from: nil)
-            }, completion: { _ in
+                tempImage.frame = strongSelf.transitionInfo.convertedRect
+                tempMask.frame = tempImage.convert(strongSelf.transitionInfo.fromRect, from: nil)
+            }, { [weak self] in
+                guard let strongSelf = self else {
+                    return
+                }
                 tempBackground.removeFromSuperview()
                 tempImage.removeFromSuperview()
                 imageViewer.view.removeFromSuperview()
-                self.transitionInfo.fromView?.alpha = 1
+                strongSelf.transitionInfo.fromView?.alpha = 1
                 transitionContext.completeTransition(true)
             })
+        }
+    }
+    
+    private func animationBlock(for transition: GSTransitionInfo,
+                                _ animations: @escaping () -> Void,
+                                _ completionBlock: (() -> Void)?) {
+        
+        switch transition.animation {
+        case .linear:
+            UIView.animate(withDuration: transitionInfo.duration, animations: {
+                animations()
+            }, completion: {  _ in
+                completionBlock?()
+            })
+        case let .spring(damping, velocity):
+            UIView.animate(withDuration: transitionInfo.duration, delay: 0.0, usingSpringWithDamping: damping, initialSpringVelocity: velocity) {
+                animations()
+            } completion: {  _ in
+                completionBlock?()
+            }
         }
     }
 }
