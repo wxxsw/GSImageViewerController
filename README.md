@@ -23,10 +23,12 @@ present(imageViewer, animated: true, completion: nil)
 
 ## Requirements
 
-### Master
+### 1.6.4
 
 - iOS 8.0+
 - Xcode 10.2+ (Swift 5)
+
+> CocoaPods users should use `GSImageViewerController` 1.6.4 or newer to match the current example code, including `GSTransitionInfo.Animation`.
 
 ### [1.5.2](https://github.com/wxxsw/GSImageViewerController/tree/1.5.2)
 
